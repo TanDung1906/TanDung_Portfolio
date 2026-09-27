@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Portfolio of Nguyen Tan Dung, a Software Engineering student and web developer focused on ReactJS, Node.js, Java, and SQL."
+    />
+    <title>Nguyen Tan Dung | Web Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23315c4f'/%3E%3Cpath d='M18 20h28v7H36v21h-8V27H18z' fill='%23fffaf1'/%3E%3Cpath d='M42 38c4 0 7 2 7 6s-3 6-7 6h-9v-6h8c1 0 2-1 2-2s-1-2-2-2h-4v-6h5z' fill='%23d98555'/%3E%3C/svg%3E"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#home" aria-label="Nguyen Tan Dung home">
+        <span>TD</span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#education">Academic</a>
+        <a href="#projects">Projects</a>
+        <a href="#activities">Activities</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero section" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">Software Engineering Student</p>
+          <h1>Nguyen Tan Dung</h1>
+          <p class="hero-lede">
+            I build practical web applications with ReactJS, Node.js, Java, and SQL. I am
+            currently a third-year Software Engineering student at FPT University and looking
+            for a Web Developer Intern opportunity.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#projects">View Projects</a>
+            <a class="btn secondary" href="mailto:ngtandung1906@gmail.com">Contact Me</a>
+            <a class="btn ghost" href="assets/NguyenTanDung_CV.pdf" download>Download CV</a>
+          </div>
+
+          <dl class="quick-facts" aria-label="Quick facts">
+            <div>
+              <dt>University</dt>
+              <dd>FPT University</dd>
+            </div>
+            <div>
+              <dt>GPA</dt>
+              <dd>7.6 / 10</dd>
+            </div>
+            <div>
+              <dt>Graduation</dt>
+              <dd>2027</dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="hero-portrait" aria-label="Profile photo and technology focus">
+          <div class="portrait-orbit">
+            <span class="orbit-badge badge-react">ReactJS</span>
+            <span class="orbit-badge badge-node">Node.js</span>
+            <span class="orbit-badge badge-java">Java</span>
+            <div class="portrait-ring">
+              <div class="portrait-frame">
+                <img src="assets/profile.jpg" alt="Nguyen Tan Dung profile photo" />
+                <div class="portrait-fallback" aria-hidden="true">
+                  <strong>TD</strong>
+                  <span>Web Developer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mini-visual" aria-label="Current developer focus">
+            <div class="mini-visual-head">
+              <span>Developer Focus</span>
+              <strong>2026</strong>
+            </div>
+            <div class="focus-row">
+              <span>Frontend</span>
+              <div class="focus-track"><i style="width: 86%"></i></div>
+            </div>
+            <div class="focus-row">
+              <span>Backend</span>
+              <div class="focus-track"><i style="width: 78%"></i></div>
+            </div>
+            <div class="focus-row">
+              <span>Database</span>
+              <div class="focus-track"><i style="width: 72%"></i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section split-section" id="about">
+        <div>
+          <p class="eyebrow">About</p>
+          <h2>A full-stack learner who likes building useful things.</h2>
+        </div>
+        <div class="section-body">
+          <p>
+            I have a solid foundation in web development and hands-on project experience across
+            frontend, backend, and database work. My recent projects helped me practice ReactJS
+            interfaces, RESTful APIs, Java Servlet applications, SQL Server schemas, and team-based
+            Git workflows.
+          </p>
+          <p>
+            I enjoy clean UI, understandable code, and real project teamwork. I also use AI tools
+            to speed up troubleshooting, study technical concepts, and improve the quality of my
+            daily development work.
+          </p>
+        </div>
+      </section>
+
+      <section class="section" id="skills">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Skills</p>
+            <h2>Technology I have practiced</h2>
+          </div>
+          <p class="section-kicker">
+            A practical stack from school projects, teamwork, and self-learning.
+          </p>
+        </div>
+
+        <div class="skills-showcase">
+          <div class="skill-cloud" aria-label="Technical skill list">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>ReactJS</span>
+            <span>Node.js</span>
+            <span>Express</span>
+            <span>Java Servlet</span>
+            <span>JSP</span>
+            <span>JDBC</span>
+            <span>SQL Server</span>
+            <span>MySQL</span>
+            <span>Git / GitHub</span>
+            <span>RESTful APIs</span>
+            <span>OOP</span>
+            <span>Arduino</span>
+          </div>
+
+          <div class="stack-visual" aria-label="Skill focus visualization">
+            <div class="stack-item">
+              <div>
+                <strong>Frontend</strong>
+                <span>ReactJS, responsive UI, JavaScript</span>
+              </div>
+              <div class="stack-bar" aria-hidden="true"><i style="width: 88%"></i></div>
+            </div>
+            <div class="stack-item">
+              <div>
+                <strong>Backend</strong>
+                <span>Node.js, Express, Servlet, JSP</span>
+              </div>
+              <div class="stack-bar" aria-hidden="true"><i style="width: 80%"></i></div>
+            </div>
+            <div class="stack-item">
+              <div>
+                <strong>Database</strong>
+                <span>SQL Server, MySQL, ERD design</span>
+              </div>
+              <div class="stack-bar" aria-hidden="true"><i style="width: 74%"></i></div>
+            </div>
+            <div class="stack-item">
+              <div>
+                <strong>Collaboration</strong>
+                <span>Git workflow, leadership, communication</span>
+              </div>
+              <div class="stack-bar" aria-hidden="true"><i style="width: 82%"></i></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section education-section" id="education">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Academic</p>
+            <h2>Education</h2>
+          </div>
+        </div>
+
+        <div class="education-card">
+          <div class="education-main">
+            <span class="date-pill">2023 - 2027</span>
+            <h3>FPT University</h3>
+            <p>Major: Software Engineering</p>
+            <p>Current status: 3rd-year student</p>
+          </div>
+          <div class="education-metrics" aria-label="Education highlights">
+            <div>
+              <strong>7.6</strong>
+              <span>GPA / 10</span>
+            </div>
+            <div>
+              <strong>2027</strong>
+              <span>Expected graduation</span>
+            </div>
+            <div>
+              <strong>SU 2025</strong>
+              <span>Good Student Award</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section projects-section" id="projects">
+        <div class="section-heading projects-heading">
+          <div>
+            <p class="eyebrow">Projects</p>
+            <h2>Selected work from my CV</h2>
+          </div>
+          <div class="filter-group" aria-label="Project filters">
+            <button class="filter-btn active" type="button" data-filter="all">All</button>
+            <button class="filter-btn" type="button" data-filter="web">Web</button>
+            <button class="filter-btn" type="button" data-filter="iot">IoT</button>
+          </div>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" data-category="web">
+            <div class="project-icon" aria-hidden="true">
+              <span>SL</span>
+            </div>
+            <div class="project-topline">
+              <span>Full-stack</span>
+              <span>Apr 2026 - Jul 2026</span>
+            </div>
+            <h3>Star Learning Path</h3>
+            <p>
+              A web platform for providing and tracking online learning paths with dashboards,
+              authentication, course management, and roadmap tracking.
+            </p>
+            <ul class="project-highlights">
+              <li>Progress dashboard with ReactJS components</li>
+              <li>REST APIs for users, courses, and roadmaps</li>
+              <li>SQL Server schema for learning progress</li>
+            </ul>
+            <div class="tags">
+              <span>ReactJS</span>
+              <span>Node.js</span>
+              <span>SQL Server</span>
+            </div>
+            <div class="project-actions">
+              <button
+                class="project-btn"
+                type="button"
+                data-modal="star-learning-path"
+              >
+                Details
+              </button>
+              <a
+                class="project-btn"
+                href="https://github.com/themanhvxhg123/Learning-Path-SWP391-"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source
+              </a>
+              <span class="project-status">Live demo soon</span>
+            </div>
+          </article>
+
+          <article class="project-card" data-category="web">
+            <div class="project-icon" aria-hidden="true">
+              <span>CT</span>
+            </div>
+            <div class="project-topline">
+              <span>Full-stack</span>
+              <span>Jan 2026 - Apr 2026</span>
+            </div>
+            <h3>Concert Ticket Selling Website</h3>
+            <p>
+              A Java MVC2 web application for browsing concert events, managing accounts,
+              booking tickets, and showing booking confirmations.
+            </p>
+            <ul class="project-highlights">
+              <li>Ticket booking flow with session handling</li>
+              <li>SQL Server tables for events and orders</li>
+              <li>Dynamic JSP pages for schedules and receipts</li>
+            </ul>
+            <div class="tags">
+              <span>JSP</span>
+              <span>Servlet</span>
+              <span>JDBC</span>
+            </div>
+            <div class="project-actions">
+              <button
+                class="project-btn"
+                type="button"
+                data-modal="concert-ticket-selling-website"
+              >
+                Details
+              </button>
+              <a
+                class="project-btn"
+                href="https://github.com/dghoang/PRJ301_GROUP4_SELLING_TICKET.git"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Source
+              </a>
+              <span class="project-status">Live demo soon</span>
+            </div>
+          </article>
+
+          <article class="project-card" data-category="iot">
+            <div class="project-icon" aria-hidden="true">
+              <span>IoT</span>
+            </div>
+            <div class="project-topline">
+              <span>IoT</span>
+              <span>Jan 2026 - Mar 2026</span>
+            </div>
+            <h3>Smart Door System for Apartments</h3>
+            <p>
+              An Arduino-based system that reads sensor input and controls connected devices for
+              a smart apartment door concept.
+            </p>
+            <ul class="project-highlights">
+              <li>Sensor wiring and circuit contribution</li>
+              <li>C/C++ logic for reading input signals</li>
+              <li>Device action testing with Arduino board</li>
+            </ul>
+            <div class="tags">
+              <span>C/C++</span>
+              <span>Arduino</span>
+              <span>Sensors</span>
+            </div>
+            <div class="project-actions">
+              <button
+                class="project-btn"
+                type="button"
+                data-modal="smart-door-system-for-apartments"
+              >
+                Details
+              </button>
+              <span class="project-status">Prototype project</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section split-section" id="activities">
+        <div>
+          <p class="eyebrow">Activities</p>
+          <h2>Leadership outside coding</h2>
+        </div>
+        <div class="timeline">
+          <article>
+            <span>Mar 2025 - Mar 2026</span>
+            <h3>Vice Head of Internal Relation Department</h3>
+            <p>
+              FEC - FPT English Club. Co-organized club events such as International Day,
+              FEC birthdays, Christmas activities, and language workshops.
+            </p>
+          </article>
+          <article>
+            <span>Community project</span>
+            <h3>Project Leader - Healing String</h3>
+            <p>
+              Planned the workshop, prepared materials, searched for the venue, managed team
+              tasks, and solved problems during the event.
+            </p>
+          </article>
+          <article>
+            <span>Honors</span>
+            <h3>Good Student Award</h3>
+            <p>Software Engineering, FPT University - Summer 2025.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="contact-copy">
+          <p class="eyebrow">Contact</p>
+          <h2>Let us build something useful.</h2>
+          <p>
+            I am open to internship opportunities, web development projects, and student team
+            collaborations.
+          </p>
+          <div class="contact-links">
+            <a href="mailto:ngtandung1906@gmail.com">ngtandung1906@gmail.com</a>
+            <a href="tel:+84886096513">0886 096 513</a>
+            <a href="https://github.com/TanDung1906" target="_blank" rel="noreferrer">
+              github.com/TanDung1906
+            </a>
+          </div>
+        </div>
+
+        <form class="contact-form" id="contactForm">
+          <label>
+            Your name
+            <input type="text" name="name" placeholder="Enter your name" required />
+          </label>
+          <label>
+            Your email
+            <input type="email" name="email" placeholder="Enter your email" required />
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="4" placeholder="Write a short message" required></textarea>
+          </label>
+          <button class="btn primary" type="submit">Prepare Email</button>
+          <p class="form-note" id="formNote" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Nguyen Tan Dung</p>
+      <a href="#home">Back to top</a>
+    </footer>
+
+    <dialog class="project-modal" id="projectModal">
+      <div class="modal-content">
+        <button class="modal-close" type="button" aria-label="Close project details">Close</button>
+        <p class="eyebrow" id="modalMeta"></p>
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <ul id="modalTasks"></ul>
+      </div>
+    </dialog>
+
+    <script src="app.js"></script>
+  </body>
+</html>
