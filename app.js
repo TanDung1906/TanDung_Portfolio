@@ -152,7 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const enterScreen = document.getElementById("enterScreen");
 const enterText = document.querySelector(".enter-text");
 
-window.addEventListener("load", () => {
   const greetings = ["Hello", "Xin Chào", "Bonjour", "Hola", "こんにちは", "WELCOME"];
   const greetingText = document.getElementById("greetingText");
   const enterHint = document.getElementById("enterHint");
@@ -172,7 +171,6 @@ window.addEventListener("load", () => {
       }
     }, 250); // fast cycle
   }
-});
 
 if (enterScreen) {
   enterScreen.addEventListener("click", () => {
