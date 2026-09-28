@@ -307,75 +307,43 @@ contactForm?.addEventListener("submit", (event) => {
   window.location.href = `mailto:ngtandung1906@gmail.com?subject=${subject}&body=${body}`;
 });
 
-// --- Avatar YouTube Music Player ---
+// --- Avatar HTML5 Music Player ---
 const avatarDisk = document.getElementById("avatarDisk");
-let ytPlayer;
-let isYtPlaying = false;
+const avatarAudio = document.getElementById("avatarAudio");
 
-// This function is called automatically by the YouTube API when it loads
-window.onYouTubeIframeAPIReady = function() {
-  ytPlayer = new YT.Player('youtubePlayer', {
-    height: '0',
-    width: '0',
-    videoId: 'F0LbZbTJq6A', // User's requested video ID
-    playerVars: {
-      'autoplay': 1,
-      'loop': 1,
-      'playlist': 'F0LbZbTJq6A', // Required for looping single video
-      'controls': 0,
-      'showinfo': 0,
-      'modestbranding': 1,
-      'fs': 0,
-      'cc_load_policy': 0,
-      'iv_load_policy': 3,
-      'autohide': 0
-    },
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
+if (avatarDisk && avatarAudio) {
+  // Toggle on click
+  avatarDisk.addEventListener("click", (e) => {
+    e.stopPropagation(); // prevent document click from interfering
+    if (avatarAudio.paused) {
+      avatarAudio.play();
+      avatarDisk.classList.add("playing");
+    } else {
+      avatarAudio.pause();
+      avatarDisk.classList.remove("playing");
     }
   });
-};
 
-function onPlayerReady(event) {
   // Attempt Autoplay
-  event.target.playVideo();
-  
-  // Toggle on click
-  if (avatarDisk) {
-    avatarDisk.addEventListener("click", (e) => {
-      e.stopPropagation(); // prevent document click from interfering
-      if (ytPlayer && typeof ytPlayer.getPlayerState === 'function') {
-        const state = ytPlayer.getPlayerState();
-        if (state === YT.PlayerState.PLAYING) {
-          ytPlayer.pauseVideo();
-        } else {
-          ytPlayer.playVideo();
-        }
-      }
-    });
-
-    // Fallback: wait for the first click anywhere on the page if autoplay fails
-    const playOnInteraction = () => {
-      if (ytPlayer && typeof ytPlayer.getPlayerState === 'function') {
-         if (ytPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
-            ytPlayer.playVideo();
-         }
-      }
-      document.removeEventListener("click", playOnInteraction);
-    };
-    document.addEventListener("click", playOnInteraction);
-  }
-}
-
-function onPlayerStateChange(event) {
-  if (avatarDisk) {
-    if (event.data === YT.PlayerState.PLAYING) {
+  const attemptPlay = () => {
+    avatarAudio.play().then(() => {
       avatarDisk.classList.add("playing");
-      isYtPlaying = true;
-    } else {
-      avatarDisk.classList.remove("playing");
-      isYtPlaying = false;
-    }
-  }
+    }).catch((error) => {
+      console.log("Autoplay prevented by browser. Waiting for user interaction.");
+      
+      // Fallback: wait for the first click anywhere on the page
+      const playOnInteraction = () => {
+        avatarAudio.play().then(() => {
+          avatarDisk.classList.add("playing");
+        }).catch(() => {});
+        document.removeEventListener("click", playOnInteraction);
+      };
+      document.addEventListener("click", playOnInteraction);
+    });
+  };
+
+  // Try playing when window loads
+  window.addEventListener("load", () => {
+    setTimeout(attemptPlay, 1000); // slight delay to allow preloader to finish
+  });
 }

@@ -88,9 +88,10 @@
         </div>
 
         <div class="hero-portrait" aria-label="Profile photo and technology focus">
-          <!-- Invisible YouTube Player for background music -->
-          <div id="youtubePlayer" style="display: none;"></div>
-          <script src="https://www.youtube.com/iframe_api"></script>
+          <!-- Background Music Player -->
+          <audio id="avatarAudio" loop preload="auto">
+            <source src="assets/bgm.mp3" type="audio/mpeg">
+          </audio>
           
           <div class="portrait-orbit" id="avatarDisk" title="Click to play/pause music">
             <span class="orbit-badge badge-react">ReactJS</span>
