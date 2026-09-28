@@ -153,10 +153,24 @@ const enterScreen = document.getElementById("enterScreen");
 const enterText = document.querySelector(".enter-text");
 
 window.addEventListener("load", () => {
-  // Show the "Tap to enter" text after resources have loaded
-  if (enterText) {
-    enterText.style.display = "block";
-    enterText.style.animation = "blink 1.5s infinite";
+  const greetings = ["Hello", "Xin Chào", "Bonjour", "Hola", "こんにちは", "WELCOME"];
+  const greetingText = document.getElementById("greetingText");
+  const enterHint = document.getElementById("enterHint");
+
+  if (greetingText) {
+    let step = 0;
+    const cycleGreetings = setInterval(() => {
+      step++;
+      if (step < greetings.length) {
+        greetingText.textContent = greetings[step];
+      } else {
+        clearInterval(cycleGreetings);
+        if (enterHint) {
+          enterHint.style.opacity = 1;
+          enterHint.style.animation = "blink 1.5s infinite";
+        }
+      }
+    }, 250); // fast cycle
   }
 });
 
