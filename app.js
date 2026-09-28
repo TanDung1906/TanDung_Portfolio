@@ -330,19 +330,21 @@ contactForm?.addEventListener("submit", (event) => {
 // --- HTML5 Music Player ---
 const avatarAudioBottom = document.getElementById("avatarAudio");
 const avatarDiskBottom = document.getElementById("avatarDisk");
-const musicToggleBtn = document.querySelector(".music-toggle");
-const pauseIcon = document.querySelector(".pause-icon");
-const playIcon = document.querySelector(".play-icon");
+const musicToggleBtn = document.querySelector(".floating-music-btn");
+const musicOnIcon = document.querySelector(".music-on-icon");
+const musicOffIcon = document.querySelector(".music-off-icon");
 
 function syncMusicUI(isPlaying) {
   if (isPlaying) {
     if (avatarDiskBottom) avatarDiskBottom.classList.add("playing");
-    if (pauseIcon) pauseIcon.style.display = "block";
-    if (playIcon) playIcon.style.display = "none";
+    if (musicToggleBtn) musicToggleBtn.classList.add("playing");
+    if (musicOnIcon) musicOnIcon.style.display = "block";
+    if (musicOffIcon) musicOffIcon.style.display = "none";
   } else {
     if (avatarDiskBottom) avatarDiskBottom.classList.remove("playing");
-    if (pauseIcon) pauseIcon.style.display = "none";
-    if (playIcon) playIcon.style.display = "block";
+    if (musicToggleBtn) musicToggleBtn.classList.remove("playing");
+    if (musicOnIcon) musicOnIcon.style.display = "none";
+    if (musicOffIcon) musicOffIcon.style.display = "block";
   }
 }
 
