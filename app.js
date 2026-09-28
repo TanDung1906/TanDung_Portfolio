@@ -158,18 +158,29 @@ const enterText = document.querySelector(".enter-text");
 
   if (greetingText) {
     let step = 0;
-    const cycleGreetings = setInterval(() => {
-      step++;
-      if (step < greetings.length) {
-        greetingText.textContent = greetings[step];
-      } else {
-        clearInterval(cycleGreetings);
-        if (enterHint) {
-          enterHint.style.opacity = 1;
-          enterHint.style.animation = "blink 1.5s infinite";
-        }
+    
+    // Smooth fade transition for the text
+    greetingText.style.transition = "opacity 0.4s ease-in-out";
+    
+    // Show the "Tap to enter" hint shortly after the page loads
+    setTimeout(() => {
+      if (enterHint) {
+        enterHint.style.opacity = 1;
+        enterHint.style.animation = "blink 1.5s infinite";
       }
-    }, 250); // fast cycle
+    }, 1500);
+
+    // Continuously loop through greetings
+    setInterval(() => {
+      greetingText.style.opacity = 0; // Fade out
+      
+      setTimeout(() => {
+        step = (step + 1) % greetings.length;
+        greetingText.textContent = greetings[step];
+        greetingText.style.opacity = 1; // Fade back in
+      }, 400); // Change text when invisible
+      
+    }, 2000); // Change greeting every 2 seconds
   }
 
 if (enterScreen) {
