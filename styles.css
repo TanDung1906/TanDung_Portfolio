@@ -1204,3 +1204,17 @@ body:not(.loaded) {
   100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
 }
 
+
+
+/* Custom Neon Cursor */
+body { cursor: none; }
+.neon-cursor, .neon-cursor-trail { position: fixed; top: 0; left: 0; pointer-events: none; border-radius: 50%; z-index: 10000; mix-blend-mode: screen; }
+.neon-cursor { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s; }
+.neon-cursor-trail { width: 30px; height: 30px; border: 1px solid rgba(56, 189, 248, 0.5); transform: translate(-50%, -50%); transition: transform 0.1s ease-out; }
+.cursor-hover .neon-cursor { width: 24px; height: 24px; background: rgba(56, 189, 248, 0.5); }
+
+/* 3D Tilt Project Cards */
+.project-card { transform-style: preserve-3d; transform: perspective(1000px); transition: box-shadow 0.3s ease; }
+.project-card:hover { box-shadow: 0 0 30px rgba(56, 189, 248, 0.3), 0 0 10px rgba(251, 146, 60, 0.2); }
+.project-card > * { transform: translateZ(20px); }
+

@@ -397,3 +397,142 @@ if (avatarAudioBottom) {
   avatarAudioBottom.addEventListener('play', () => syncMusicUI(true));
   avatarAudioBottom.addEventListener('pause', () => syncMusicUI(false));
 }
+
+// --- Custom Neon Cursor ---
+const cursorDot = document.querySelector('.neon-cursor');
+const cursorTrail = document.querySelector('.neon-cursor-trail');
+let mouseX = 0, mouseY = 0;
+let trailX = 0, trailY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  if (cursorDot) {
+    cursorDot.style.left = mouseX + 'px';
+    cursorDot.style.top = mouseY + 'px';
+  }
+});
+
+function animateCursor() {
+  let distX = mouseX - trailX;
+  let distY = mouseY - trailY;
+  trailX += distX * 0.2;
+  trailY += distY * 0.2;
+  
+  if (cursorTrail) {
+    cursorTrail.style.left = trailX + 'px';
+    cursorTrail.style.top = trailY + 'px';
+  }
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+// Hover effect for links and buttons
+const interactiveElements = document.querySelectorAll('a, button, .project-card, .portrait-orbit');
+interactiveElements.forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+// --- 3D Tilt Effect on Project Cards ---
+const cards = document.querySelectorAll('.project-card');
+cards.forEach(card => {
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -15;
+    const rotateY = ((x - centerX) / centerX) * 15;
+    
+    card.style.transform = `perspective(1000px) rotateX(deg) rotateY(deg)`;
+  });
+  
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+  });
+});
+
+// --- Particle Matrix Background ---
+const canvas = document.getElementById('particleCanvas');
+if (canvas) {
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  
+  function resize() {
+    canvas.width = canvas.parentElement.offsetWidth;
+    canvas.height = canvas.parentElement.offsetHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2;
+      this.speedX = Math.random() * 2 - 1;
+      this.speedY = Math.random() * 2 - 1;
+      this.color = Math.random() > 0.5 ? 'rgba(56, 189, 248, 0.5)' : 'rgba(251, 146, 60, 0.5)';
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+      
+      const dx = mouseX - this.x;
+      const dy = mouseY - this.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 100) {
+        this.x -= dx * 0.05;
+        this.y -= dy * 0.05;
+      }
+
+      if (this.x > canvas.width) this.x = 0;
+      if (this.x < 0) this.x = canvas.width;
+      if (this.y > canvas.height) this.y = 0;
+      if (this.y < 0) this.y = canvas.height;
+    }
+    draw() {
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    const numParticles = Math.floor((canvas.width * canvas.height) / 10000);
+    for (let i = 0; i < numParticles; i++) {
+      particles.push(new Particle());
+    }
+  }
+  initParticles();
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < 80) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(56, 189, 248, )`;
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+}
+
