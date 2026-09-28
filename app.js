@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const enterScreen = document.getElementById("enterScreen");
 const enterText = document.querySelector(".enter-text");
 
-  const greetings = ["Hello", "Xin Chào", "Bonjour", "Hola", "こんにちは", "WELCOME"];
+  const greetings = ["Xin Chào", "Bonjour", "Hola", "こんにちは", "WELCOME", "Hello"];
   const greetingText = document.getElementById("greetingText");
   const enterHint = document.getElementById("enterHint");
 
