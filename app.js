@@ -11,6 +11,9 @@ const modalDescription = document.querySelector("#modalDescription");
 const modalTasks = document.querySelector("#modalTasks");
 const contactForm = document.querySelector("#contactForm");
 const formNote = document.querySelector("#formNote");
+const themeToggleBtn = document.querySelector(".theme-toggle");
+const sunIcon = document.querySelector(".sun-icon");
+const moonIcon = document.querySelector(".moon-icon");
 
 const projectDetails = {
   "star-learning-path": {
@@ -49,6 +52,180 @@ const projectDetails = {
     ]
   }
 };
+
+// --- Theme Toggle Logic ---
+const currentTheme = localStorage.getItem("theme");
+if (currentTheme === "dark") {
+  document.documentElement.setAttribute("data-theme", "dark");
+  sunIcon.style.display = "none";
+  moonIcon.style.display = "block";
+}
+
+themeToggleBtn?.addEventListener("click", () => {
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  
+  if (isDark) {
+    document.documentElement.removeAttribute("data-theme");
+    localStorage.setItem("theme", "light");
+    sunIcon.style.display = "block";
+    moonIcon.style.display = "none";
+  } else {
+    document.documentElement.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "dark");
+    sunIcon.style.display = "none";
+    moonIcon.style.display = "block";
+  }
+  
+  // Re-render chart if it exists to update colors
+  if (window.skillsChart) {
+    initChart();
+  }
+});
+
+// --- Scroll Reveal Animations ---
+const revealElements = document.querySelectorAll(".reveal");
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+revealElements.forEach((el) => revealObserver.observe(el));
+
+// --- Chart.js Initialization ---
+function initChart() {
+  const ctx = document.getElementById('skillsRadarChart');
+  if (!ctx) return;
+  
+  if (window.skillsChart) {
+    window.skillsChart.destroy();
+  }
+
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+  const textColor = isDark ? "#e2e8f0" : "#68737d";
+  const gridColor = isDark ? "rgba(255, 255, 255, 0.1)" : "rgba(49, 92, 79, 0.1)";
+
+  window.skillsChart = new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Frontend', 'Backend', 'Database', 'Collaboration', 'UI/UX', 'Cloud/IoT'],
+      datasets: [{
+        label: 'Skill Proficiency',
+        data: [90, 88, 85, 85, 78, 75],
+        backgroundColor: 'rgba(47, 159, 154, 0.2)',
+        borderColor: '#2f9f9a',
+        pointBackgroundColor: '#c26a3a',
+        pointBorderColor: '#fff',
+        pointHoverBackgroundColor: '#fff',
+        pointHoverBorderColor: '#c26a3a'
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        r: {
+          angleLines: { color: gridColor },
+          grid: { color: gridColor },
+          pointLabels: {
+            color: textColor,
+            font: { family: "'Manrope', sans-serif", size: 12, weight: 'bold' }
+          },
+          ticks: { display: false, min: 0, max: 100 }
+        }
+      }
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initChart();
+});
+
+// --- Preloader Logic ---
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    document.body.classList.add("loaded");
+  }, 600); // slight delay for effect
+});
+
+// --- Typewriter Effect ---
+const typeWriterElement = document.querySelector(".typewriter");
+const words = ["Software Engineering Student", "Full-Stack Web Developer", "Tech Enthusiast"];
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function type() {
+  if (!typeWriterElement) return;
+  
+  const currentWord = words[wordIndex];
+  
+  if (isDeleting) {
+    typeWriterElement.textContent = currentWord.substring(0, charIndex - 1);
+    charIndex--;
+  } else {
+    typeWriterElement.textContent = currentWord.substring(0, charIndex + 1);
+    charIndex++;
+  }
+
+  let typingSpeed = isDeleting ? 50 : 100;
+
+  if (!isDeleting && charIndex === currentWord.length) {
+    typingSpeed = 2000; // Pause at end of word
+    isDeleting = true;
+  } else if (isDeleting && charIndex === 0) {
+    isDeleting = false;
+    wordIndex = (wordIndex + 1) % words.length;
+    typingSpeed = 500; // Pause before typing new word
+  }
+
+  setTimeout(type, typingSpeed);
+}
+
+if (typeWriterElement) {
+  setTimeout(type, 1000); // Start after preloader
+}
+
+// --- Bouncing Letters Effect ---
+const heroTitle = document.querySelector(".hero h1");
+if (heroTitle) {
+  const text = heroTitle.textContent;
+  heroTitle.textContent = "";
+  heroTitle.style.display = "flex";
+  heroTitle.style.flexWrap = "wrap";
+  
+  const titleWords = text.split(" ");
+  titleWords.forEach((word, index) => {
+    const wordSpan = document.createElement("span");
+    wordSpan.style.display = "inline-block";
+    wordSpan.style.whiteSpace = "nowrap";
+    
+    for (let i = 0; i < word.length; i++) {
+      const charSpan = document.createElement("span");
+      charSpan.textContent = word[i];
+      charSpan.classList.add("bouncing-letter");
+      wordSpan.appendChild(charSpan);
+    }
+    
+    heroTitle.appendChild(wordSpan);
+    
+    if (index < titleWords.length - 1) {
+      const spaceSpan = document.createElement("span");
+      spaceSpan.innerHTML = "&nbsp;";
+      heroTitle.appendChild(spaceSpan);
+    }
+  });
+}
+
+// --- Existing Logic ---
+
 
 navToggle?.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("open");
@@ -129,3 +306,76 @@ contactForm?.addEventListener("submit", (event) => {
   formNote.textContent = "Opening your email app with a prepared message.";
   window.location.href = `mailto:ngtandung1906@gmail.com?subject=${subject}&body=${body}`;
 });
+
+// --- Avatar YouTube Music Player ---
+const avatarDisk = document.getElementById("avatarDisk");
+let ytPlayer;
+let isYtPlaying = false;
+
+// This function is called automatically by the YouTube API when it loads
+window.onYouTubeIframeAPIReady = function() {
+  ytPlayer = new YT.Player('youtubePlayer', {
+    height: '0',
+    width: '0',
+    videoId: 'F0LbZbTJq6A', // User's requested video ID
+    playerVars: {
+      'autoplay': 1,
+      'loop': 1,
+      'playlist': 'F0LbZbTJq6A', // Required for looping single video
+      'controls': 0,
+      'showinfo': 0,
+      'modestbranding': 1,
+      'fs': 0,
+      'cc_load_policy': 0,
+      'iv_load_policy': 3,
+      'autohide': 0
+    },
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+};
+
+function onPlayerReady(event) {
+  // Attempt Autoplay
+  event.target.playVideo();
+  
+  // Toggle on click
+  if (avatarDisk) {
+    avatarDisk.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent document click from interfering
+      if (ytPlayer && typeof ytPlayer.getPlayerState === 'function') {
+        const state = ytPlayer.getPlayerState();
+        if (state === YT.PlayerState.PLAYING) {
+          ytPlayer.pauseVideo();
+        } else {
+          ytPlayer.playVideo();
+        }
+      }
+    });
+
+    // Fallback: wait for the first click anywhere on the page if autoplay fails
+    const playOnInteraction = () => {
+      if (ytPlayer && typeof ytPlayer.getPlayerState === 'function') {
+         if (ytPlayer.getPlayerState() !== YT.PlayerState.PLAYING) {
+            ytPlayer.playVideo();
+         }
+      }
+      document.removeEventListener("click", playOnInteraction);
+    };
+    document.addEventListener("click", playOnInteraction);
+  }
+}
+
+function onPlayerStateChange(event) {
+  if (avatarDisk) {
+    if (event.data === YT.PlayerState.PLAYING) {
+      avatarDisk.classList.add("playing");
+      isYtPlaying = true;
+    } else {
+      avatarDisk.classList.remove("playing");
+      isYtPlaying = false;
+    }
+  }
+}

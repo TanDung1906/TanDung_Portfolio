@@ -20,12 +20,24 @@
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23315c4f'/%3E%3Cpath d='M18 20h28v7H36v21h-8V27H18z' fill='%23fffaf1'/%3E%3Cpath d='M42 38c4 0 7 2 7 6s-3 6-7 6h-9v-6h8c1 0 2-1 2-2s-1-2-2-2h-4v-6h5z' fill='%23d98555'/%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
+    <!-- Preloader -->
+    <div class="preloader">
+      <div class="loader-circle"></div>
+      <div class="loader-text">TD</div>
+    </div>
+
     <header class="site-header">
       <a class="brand" href="#home" aria-label="Nguyen Tan Dung home">
         <span>TD</span>
       </a>
+
+      <button class="theme-toggle" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
 
       <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false">
         <span></span>
@@ -43,9 +55,9 @@
     </header>
 
     <main>
-      <section class="hero section" id="home">
+      <section class="hero section reveal" id="home">
         <div class="hero-copy">
-          <p class="eyebrow">Software Engineering Student</p>
+          <p class="eyebrow"><span class="typewriter"></span><span class="cursor">|</span></p>
           <h1>Nguyen Tan Dung</h1>
           <p class="hero-lede">
             I build practical web applications with ReactJS, Node.js, Java, and SQL. I am
@@ -76,7 +88,11 @@
         </div>
 
         <div class="hero-portrait" aria-label="Profile photo and technology focus">
-          <div class="portrait-orbit">
+          <!-- Invisible YouTube Player for background music -->
+          <div id="youtubePlayer" style="display: none;"></div>
+          <script src="https://www.youtube.com/iframe_api"></script>
+          
+          <div class="portrait-orbit" id="avatarDisk" title="Click to play/pause music">
             <span class="orbit-badge badge-react">ReactJS</span>
             <span class="orbit-badge badge-node">Node.js</span>
             <span class="orbit-badge badge-java">Java</span>
@@ -112,7 +128,7 @@
         </div>
       </section>
 
-      <section class="section split-section" id="about">
+      <section class="section split-section reveal" id="about">
         <div>
           <p class="eyebrow">About</p>
           <h2>A full-stack learner who likes building useful things.</h2>
@@ -132,7 +148,7 @@
         </div>
       </section>
 
-      <section class="section" id="skills">
+      <section class="section reveal" id="skills">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Skills</p>
@@ -162,40 +178,13 @@
             <span>Arduino</span>
           </div>
 
-          <div class="stack-visual" aria-label="Skill focus visualization">
-            <div class="stack-item">
-              <div>
-                <strong>Frontend</strong>
-                <span>ReactJS, responsive UI, JavaScript</span>
-              </div>
-              <div class="stack-bar" aria-hidden="true"><i style="width: 88%"></i></div>
-            </div>
-            <div class="stack-item">
-              <div>
-                <strong>Backend</strong>
-                <span>Node.js, Express, Servlet, JSP</span>
-              </div>
-              <div class="stack-bar" aria-hidden="true"><i style="width: 80%"></i></div>
-            </div>
-            <div class="stack-item">
-              <div>
-                <strong>Database</strong>
-                <span>SQL Server, MySQL, ERD design</span>
-              </div>
-              <div class="stack-bar" aria-hidden="true"><i style="width: 74%"></i></div>
-            </div>
-            <div class="stack-item">
-              <div>
-                <strong>Collaboration</strong>
-                <span>Git workflow, leadership, communication</span>
-              </div>
-              <div class="stack-bar" aria-hidden="true"><i style="width: 82%"></i></div>
-            </div>
+          <div class="stack-visual chart-container" aria-label="Skill focus visualization">
+            <canvas id="skillsRadarChart"></canvas>
           </div>
         </div>
       </section>
 
-      <section class="section education-section" id="education">
+      <section class="section education-section reveal" id="education">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Academic</p>
@@ -227,7 +216,7 @@
         </div>
       </section>
 
-      <section class="section projects-section" id="projects">
+      <section class="section projects-section reveal" id="projects">
         <div class="section-heading projects-heading">
           <div>
             <p class="eyebrow">Projects</p>
@@ -364,7 +353,7 @@
         </div>
       </section>
 
-      <section class="section split-section" id="activities">
+      <section class="section split-section reveal" id="activities">
         <div>
           <p class="eyebrow">Activities</p>
           <h2>Leadership outside coding</h2>
@@ -394,7 +383,7 @@
         </div>
       </section>
 
-      <section class="section contact-section" id="contact">
+      <section class="section contact-section reveal" id="contact">
         <div class="contact-copy">
           <p class="eyebrow">Contact</p>
           <h2>Let us build something useful.</h2>
