@@ -148,12 +148,32 @@ document.addEventListener("DOMContentLoaded", () => {
   initChart();
 });
 
-// --- Preloader Logic ---
+// --- Preloader / Enter Screen Logic ---
+const enterScreen = document.getElementById("enterScreen");
+const enterText = document.querySelector(".enter-text");
+
 window.addEventListener("load", () => {
-  setTimeout(() => {
-    document.body.classList.add("loaded");
-  }, 600); // slight delay for effect
+  // Show the "Tap to enter" text after resources have loaded
+  if (enterText) {
+    enterText.style.display = "block";
+    enterText.style.animation = "blink 1.5s infinite";
+  }
 });
+
+if (enterScreen) {
+  enterScreen.addEventListener("click", () => {
+    document.body.classList.add("loaded");
+    
+    // Attempt to start the music right away
+    const avatarAudio = document.getElementById("avatarAudio");
+    const avatarDisk = document.getElementById("avatarDisk");
+    if (avatarAudio) {
+      avatarAudio.play().then(() => {
+        if (avatarDisk) avatarDisk.classList.add("playing");
+      }).catch(err => console.log("Audio play failed:", err));
+    }
+  });
+}
 
 // --- Typewriter Effect ---
 const typeWriterElement = document.querySelector(".typewriter");
@@ -308,42 +328,19 @@ contactForm?.addEventListener("submit", (event) => {
 });
 
 // --- Avatar HTML5 Music Player ---
-const avatarDisk = document.getElementById("avatarDisk");
-const avatarAudio = document.getElementById("avatarAudio");
+const avatarAudioBottom = document.getElementById("avatarAudio");
+const avatarDiskBottom = document.getElementById("avatarDisk");
 
-if (avatarDisk && avatarAudio) {
-  // Toggle on click
-  avatarDisk.addEventListener("click", (e) => {
-    e.stopPropagation(); // prevent document click from interfering
-    if (avatarAudio.paused) {
-      avatarAudio.play();
-      avatarDisk.classList.add("playing");
+if (avatarDiskBottom && avatarAudioBottom) {
+  // Toggle on click (when already inside the site)
+  avatarDiskBottom.addEventListener("click", (e) => {
+    e.stopPropagation(); 
+    if (avatarAudioBottom.paused) {
+      avatarAudioBottom.play();
+      avatarDiskBottom.classList.add("playing");
     } else {
-      avatarAudio.pause();
-      avatarDisk.classList.remove("playing");
+      avatarAudioBottom.pause();
+      avatarDiskBottom.classList.remove("playing");
     }
-  });
-
-  // Attempt Autoplay
-  const attemptPlay = () => {
-    avatarAudio.play().then(() => {
-      avatarDisk.classList.add("playing");
-    }).catch((error) => {
-      console.log("Autoplay prevented by browser. Waiting for user interaction.");
-      
-      // Fallback: wait for the first click anywhere on the page
-      const playOnInteraction = () => {
-        avatarAudio.play().then(() => {
-          avatarDisk.classList.add("playing");
-        }).catch(() => {});
-        document.removeEventListener("click", playOnInteraction);
-      };
-      document.addEventListener("click", playOnInteraction);
-    });
-  };
-
-  // Try playing when window loads
-  window.addEventListener("load", () => {
-    setTimeout(attemptPlay, 1000); // slight delay to allow preloader to finish
   });
 }
