@@ -327,20 +327,48 @@ contactForm?.addEventListener("submit", (event) => {
   window.location.href = `mailto:ngtandung1906@gmail.com?subject=${subject}&body=${body}`;
 });
 
-// --- Avatar HTML5 Music Player ---
+// --- HTML5 Music Player ---
 const avatarAudioBottom = document.getElementById("avatarAudio");
 const avatarDiskBottom = document.getElementById("avatarDisk");
+const musicToggleBtn = document.querySelector(".music-toggle");
+const pauseIcon = document.querySelector(".pause-icon");
+const playIcon = document.querySelector(".play-icon");
 
-if (avatarDiskBottom && avatarAudioBottom) {
-  // Toggle on click (when already inside the site)
-  avatarDiskBottom.addEventListener("click", (e) => {
-    e.stopPropagation(); 
-    if (avatarAudioBottom.paused) {
-      avatarAudioBottom.play();
-      avatarDiskBottom.classList.add("playing");
-    } else {
-      avatarAudioBottom.pause();
-      avatarDiskBottom.classList.remove("playing");
-    }
-  });
+function syncMusicUI(isPlaying) {
+  if (isPlaying) {
+    if (avatarDiskBottom) avatarDiskBottom.classList.add("playing");
+    if (pauseIcon) pauseIcon.style.display = "block";
+    if (playIcon) playIcon.style.display = "none";
+  } else {
+    if (avatarDiskBottom) avatarDiskBottom.classList.remove("playing");
+    if (pauseIcon) pauseIcon.style.display = "none";
+    if (playIcon) playIcon.style.display = "block";
+  }
+}
+
+function toggleMusic(e) {
+  if (e) e.stopPropagation(); 
+  if (!avatarAudioBottom) return;
+  
+  if (avatarAudioBottom.paused) {
+    avatarAudioBottom.play();
+    syncMusicUI(true);
+  } else {
+    avatarAudioBottom.pause();
+    syncMusicUI(false);
+  }
+}
+
+if (avatarDiskBottom) {
+  avatarDiskBottom.addEventListener("click", toggleMusic);
+}
+
+if (musicToggleBtn) {
+  musicToggleBtn.addEventListener("click", toggleMusic);
+}
+
+// Ensure the top button updates if the "Enter Screen" starts the music
+if (avatarAudioBottom) {
+  avatarAudioBottom.addEventListener('play', () => syncMusicUI(true));
+  avatarAudioBottom.addEventListener('pause', () => syncMusicUI(false));
 }
