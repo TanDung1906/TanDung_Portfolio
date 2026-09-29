@@ -1,3 +1,9 @@
+// Force page to always load at the top
+if (history.scrollRestoration) {
+  history.scrollRestoration = "manual";
+}
+window.scrollTo(0, 0);
+
 const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const profileImage = document.querySelector(".portrait-frame img");
@@ -350,12 +356,58 @@ contactForm?.addEventListener("submit", (event) => {
   window.location.href = `mailto:ngtandung1906@gmail.com?subject=${subject}&body=${body}`;
 });
 
-// --- HTML5 Music Player ---
+// --- HTML5 Music Player & Playlist ---
 const avatarAudioBottom = document.getElementById("avatarAudio");
 const avatarDiskBottom = document.getElementById("avatarDisk");
 const musicToggleBtn = document.querySelector(".floating-music-btn");
+const musicPrevBtn = document.querySelector(".music-prev-btn");
+const musicNextBtn = document.querySelector(".music-next-btn");
+const musicTrackName = document.getElementById("musicTrackName");
 const musicOnIcon = document.querySelector(".music-on-icon");
 const musicOffIcon = document.querySelector(".music-off-icon");
+const playlistDropdown = document.getElementById("playlistDropdown");
+const playlistList = document.getElementById("playlistList");
+
+// Sếp có thể tự thêm nhạc vào đây bằng cách copy dòng bên dưới
+let playlist = [
+  { name: "Anh Chỉ Yêu Cô Ta", src: "assets/bgm.mp3" },
+  { name: "Laviem", src: "assets/bai2.mp3" },
+  { name: "Lưu niên", src: "assets/bai3.mp3" }
+];
+
+// Random bài hát khởi đầu
+let currentTrackIndex = Math.floor(Math.random() * playlist.length);
+
+// Generate Playlist HTML
+if (playlistList) {
+  playlistList.innerHTML = playlist.map((track, index) => 
+    `<li data-index="${index}">${track.name}</li>`
+  ).join("");
+  
+  playlistList.addEventListener("click", (e) => {
+    if (e.target.tagName === "LI") {
+      const idx = parseInt(e.target.getAttribute("data-index"));
+      currentTrackIndex = idx;
+      loadTrack(idx);
+      avatarAudioBottom.play().then(() => syncMusicUI(true)).catch(err => console.log(err));
+      playlistDropdown.classList.remove("show");
+    }
+  });
+}
+
+if (musicTrackName) {
+  musicTrackName.addEventListener("click", (e) => {
+    e.stopPropagation();
+    playlistDropdown.classList.toggle("show");
+  });
+}
+
+// Close dropdown when clicking outside
+document.addEventListener("click", (e) => {
+  if (playlistDropdown && playlistDropdown.classList.contains("show") && !e.target.closest('.floating-music-player')) {
+    playlistDropdown.classList.remove("show");
+  }
+});
 
 function syncMusicUI(isPlaying) {
   if (isPlaying) {
@@ -371,12 +423,25 @@ function syncMusicUI(isPlaying) {
   }
 }
 
+function loadTrack(index) {
+  if (!avatarAudioBottom || playlist.length === 0) return;
+  const track = playlist[index];
+  avatarAudioBottom.src = track.src;
+  if (musicTrackName) musicTrackName.textContent = track.name;
+  
+  // Highlight active song in list
+  if (playlistList) {
+    Array.from(playlistList.children).forEach((li, i) => {
+      li.classList.toggle("active", i === index);
+    });
+  }
+}
+
 function toggleMusic(e) {
   if (e) e.stopPropagation(); 
   if (!avatarAudioBottom) return;
-  
   if (avatarAudioBottom.paused) {
-    avatarAudioBottom.play();
+    avatarAudioBottom.play().catch(e => console.log("Autoplay blocked", e));
     syncMusicUI(true);
   } else {
     avatarAudioBottom.pause();
@@ -384,19 +449,32 @@ function toggleMusic(e) {
   }
 }
 
-if (avatarDiskBottom) {
-  avatarDiskBottom.addEventListener("click", toggleMusic);
+function playNext(e) {
+  if (e) e.stopPropagation();
+  currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+  loadTrack(currentTrackIndex);
+  avatarAudioBottom.play().then(() => syncMusicUI(true)).catch(e => console.log("Play error", e));
 }
 
-if (musicToggleBtn) {
-  musicToggleBtn.addEventListener("click", toggleMusic);
+function playPrev(e) {
+  if (e) e.stopPropagation();
+  currentTrackIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+  loadTrack(currentTrackIndex);
+  avatarAudioBottom.play().then(() => syncMusicUI(true)).catch(e => console.log("Play error", e));
 }
 
-// Ensure the top button updates if the "Enter Screen" starts the music
+if (avatarDiskBottom) avatarDiskBottom.addEventListener("click", toggleMusic);
+if (musicToggleBtn) musicToggleBtn.addEventListener("click", toggleMusic);
+if (musicNextBtn) musicNextBtn.addEventListener("click", playNext);
+if (musicPrevBtn) musicPrevBtn.addEventListener("click", playPrev);
+
 if (avatarAudioBottom) {
   avatarAudioBottom.addEventListener('play', () => syncMusicUI(true));
   avatarAudioBottom.addEventListener('pause', () => syncMusicUI(false));
+  avatarAudioBottom.addEventListener('ended', playNext);
 }
+// Init playlist display if multiple tracks or explicitly requested
+loadTrack(currentTrackIndex);
 
 // --- Custom Neon Cursor ---
 const cursorDot = document.querySelector('.neon-cursor');
